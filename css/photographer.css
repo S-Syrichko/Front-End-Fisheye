@@ -1,3 +1,4 @@
+@import url("style.css");
 #contact_modal {
     display: none;
 }
@@ -5,10 +6,75 @@
 .photograph-header {
     background-color: #FAFAFA;
     height: 300px;
-    margin: 0 100px;
+    margin: 0 100px 50px 100px;
+    padding : 0 34px;
+    display: flex;
+    align-items: center;
+}
+.photographer {
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-right: auto;
+}
+.photographer__name {
+    font-size: 64px;
+    
+}
+.photographer__location {
+    font-size: 24px;
+}
+.photographer__tagline {
+    color: #525252;
+    font-size: 18px;
+}
+
+.photograph-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.photographer__thumbnail {
+    margin-left: auto;
+}
+
+.card {
+    width: 350px;
+    margin: 10px 50px;
+}
+.card__img, .card__video {
+    height: 300px;
+    width: 350px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+.card__description {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.card__description h2 {
+    color: #901C1C;
+    font-size: 24px;
+}
+.card__description__likes {
+    display: flex;
+    align-items: center;
+}
+.card__description__likes p {
+    color: #901C1C;
+    font-size: 24px;
+    font-weight: 500;
+}
+.fa-heart {
+    color: #901C1C;
+    font-size: 18px;
+    margin-left: 5px; 
 }
 
 .contact_button {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 20px;
     font-weight: bold;
     color: white;
