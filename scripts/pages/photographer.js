@@ -1,3 +1,9 @@
+let photos = [];
+let filterOption =
+  document.getElementById("filter").options[
+    document.getElementById("filter").selectedIndex
+  ].value;
+
 async function getPhotographerContent(userID) {
   return fetch("/data/photographers.json")
     .then((res) => res.json())
@@ -30,20 +36,48 @@ async function displayData(photographer, photos) {
   const userThumbnailDOM = photographerModel.getUserThumbnailDOM();
   photographerHeader.prepend(userInfoDOM);
   photographerHeader.append(userThumbnailDOM);
-  //photos
-  const photographerContent = document.querySelector(".photograph-content");
-  photos.forEach((photo) => {
-    const photoCardModel = mediaFactory(photo);
-    const photoCardDOM = photoCardModel.getPhotoCardDOM();
-    photographerContent.appendChild(photoCardDOM);
-  })
+  //filter
+
+  //media
+  displayMedia(photos);
 }
 
 async function init() {
   const userID = new URLSearchParams(window.location.search).get("id");
   const photographer = await getPhotographerContent(userID);
-  const photos = await getPhotos(userID);
+  photos = await getPhotos(userID);
   displayData(photographer, photos);
+}
+
+function toggleFilter(elem) {
+  filterOption = elem.options[elem.selectedIndex].value;
+  displayMedia(photos);
+}
+
+function sortMedia(filter, media) {
+  switch (filter) {
+    case "likes":
+      return media.sort((a, b) => b.likes - a.likes);
+    case "date":
+      return media.sort((a, b) => new Date(b.date) - new Date(a.date));
+    case "title":
+      return media.sort((a, b) => a.title.localeCompare(b.title));
+    default:
+      console.log("Invalid filter type");
+  }
+}
+
+function displayMedia(photos) {
+  const photographerContent = document.querySelector(".photograph-content");
+  removeAllChildNodes(photographerContent);
+  photos = sortMedia(filterOption, photos);
+  document.querySelector(".carousel")?.remove();
+  window.carouselDOM = new Carousel(photos);
+  photos.forEach((photo, index) => {
+    const photoCardModel = mediaFactory(photo);
+    const photoCardDOM = photoCardModel.getPhotoCardDOM(index);
+    photographerContent.appendChild(photoCardDOM);
+  });
 }
 
 init();

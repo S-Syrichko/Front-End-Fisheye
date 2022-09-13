@@ -4,29 +4,23 @@ function photographerFactory(data) {
   const picture = `assets/media/photographers/${portrait}`;
 
   function getUserCardDOM() {
-    const article = document.createElement("a");
-    article.classList.add("photographer");
+    const article = createElementWithClass("a", "photographer");
     article.setAttribute("href", "photographer.html?id=" + id + "");
     //img
-    const img = document.createElement("img");
+    const img = createElementWithClass("img", "photographer__thumbnail");
     img.setAttribute("src", picture);
     img.setAttribute("alt", name);
-    img.classList.add("photographer__thumbnail");
     //name
-    const artistName = document.createElement("h2");
-    artistName.classList.add("photographer__name");
+    const artistName = createElementWithClass("h2", "photographer__name");
     artistName.textContent = name;
     //location
-    const location = document.createElement("p");
-    location.classList.add("photographer__location");
+    const location = createElementWithClass("p", "photographer__location");
     location.textContent = `${city}, ${country}`;
     //tag
-    const tag = document.createElement("p");
-    tag.classList.add("photographer__tagline");
+    const tag = createElementWithClass("p", "photographer__tagline");
     tag.textContent = tagline;
     //price
-    const dailyPrice = document.createElement("p");
-    dailyPrice.classList.add("photographer__price");
+    const dailyPrice = createElementWithClass("p", "photographer__price");
     dailyPrice.textContent = `${price}€/jour`;
     //append
     article.appendChild(img);
@@ -37,22 +31,17 @@ function photographerFactory(data) {
     return article;
   }
   function getUserInfoDOM() {
-    const container = document.createElement("div");
-    container.classList.add("photographer");
+    const container = createElementWithClass("div", "photographer");
     //name
-    const artistName = document.createElement("h1");
-    artistName.classList.add("photographer__name");
+    const artistName = createElementWithClass("h1", "photographer__name");
     artistName.textContent = name;
     //bio container
-    const bio = document.createElement("div");
-    bio.classList.add("photographer__bio");
+    const bio = createElementWithClass("div", "photographer__bio");
     //location
-    const location = document.createElement("p");
-    location.classList.add("photographer__location");
+    const location = createElementWithClass("p", "photographer__location");
     location.textContent = `${city}, ${country}`;
     //tag
-    const tag = document.createElement("p");
-    tag.classList.add("photographer__tagline");
+    const tag = createElementWithClass("p", "photographer__tagline");
     tag.textContent = tagline;
     //append
     container.appendChild(artistName);
@@ -63,10 +52,9 @@ function photographerFactory(data) {
   }
   function getUserThumbnailDOM() {
     //img
-    const img = document.createElement("img");
+    const img = createElementWithClass("img", "photographer__thumbnail");
     img.setAttribute("src", picture);
     img.setAttribute("alt", name);
-    img.classList.add("photographer__thumbnail");
     return img;
   }
 

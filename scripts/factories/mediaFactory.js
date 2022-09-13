@@ -6,9 +6,8 @@ function mediaFactory(data) {
     : `assets/media/photos/${photographerId}/${video}`;
   const mediaType = image ? "img" : video ? "video" : null;
 
-  function getPhotoCardDOM() {
-    const card = document.createElement("div");
-    card.classList.add("card");
+  function getPhotoCardDOM(index) {
+    const card = createElementWithClass("div", "card");
     //media
     const media = document.createElement(mediaType);
     if (mediaType == "img") {
@@ -16,28 +15,30 @@ function mediaFactory(data) {
     } else if (mediaType == "video") {
       media.classList.add("card__video");
       media.setAttribute("type", "video/mp4");
-      media.setAttribute("controls", "controls");
     } else {
       throw "Type error";
     }
     media.setAttribute("src", mediaURL);
     media.setAttribute("alt", title);
+    media.addEventListener("click", () => {
+      carouselDOM.setCurrentSlide(index);
+      carouselDOM.showCarousel();
+    });
     //card description
-    const cardDesc = document.createElement("div");
-    cardDesc.classList.add("card__description");
+    const cardDesc = createElementWithClass("div", "card__description");
     //name
     const h2 = document.createElement("h2");
     h2.textContent = title;
     //likes container
-    const likesContainer = document.createElement("div");
-    likesContainer.classList.add("card__description__likes");
+    const likesContainer = createElementWithClass(
+      "div",
+      "card__description__likes"
+    );
     //likes number
     const likesNumber = document.createElement("p");
     likesNumber.textContent = likes;
     //heart
-    const heart = document.createElement("i");
-    heart.classList.add("fas");
-    heart.classList.add("fa-heart");
+    const heart = createElementWithClass("i", "fas fa-heart");
     //append
     card.appendChild(media);
     card.appendChild(cardDesc);
@@ -46,6 +47,29 @@ function mediaFactory(data) {
     likesContainer.appendChild(likesNumber);
     likesContainer.appendChild(heart);
     return card;
+  }
+  function getCarouselItemDOM() {
+    const item = createElementWithClass("div", "item");
+    //media
+    const media = document.createElement(mediaType);
+    if (mediaType == "img") {
+      media.classList.add("item__img");
+    } else if (mediaType == "video") {
+      media.classList.add("item__video");
+      media.setAttribute("type", "video/mp4");
+      media.setAttribute("controls", "controls");
+    } else {
+      throw "Type error";
+    }
+    media.setAttribute("src", mediaURL);
+    media.setAttribute("alt", title);
+    //title
+    const h2 = document.createElement("h2");
+    h2.textContent = title;
+    //append
+    item.appendChild(media);
+    item.appendChild(h2);
+    return item;
   }
   return {
     id,
@@ -57,5 +81,6 @@ function mediaFactory(data) {
     mediaURL,
     mediaType,
     getPhotoCardDOM,
+    getCarouselItemDOM,
   };
 }
