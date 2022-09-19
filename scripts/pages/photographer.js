@@ -1,4 +1,4 @@
-let photos = [];
+
 let filterOption =
   document.getElementById("filter").options[
     document.getElementById("filter").selectedIndex
@@ -16,37 +16,29 @@ async function getPhotographerContent(userID) {
     .catch((err) => console.log("Fetch error occurs", err));
 }
 
-async function getPhotos(userID) {
+async function getMedia(userID) {
   return fetch("/data/photographers.json")
     .then((res) => res.json())
     .then((res) => {
-      const photos = res.media.filter(
+      const mediaList = res.media.filter(
         (media) => media.photographerId == userID
       );
-      return photos;
+      return mediaList;
     })
     .catch((err) => console.log("Fetch error occurs", err));
 }
 
-async function displayData(photographer, photos) {
-  //header
-  const photographerHeader = document.querySelector(".photograph-header");
-  const photographerModel = photographerFactory(photographer);
-  const userInfoDOM = photographerModel.getUserInfoDOM();
-  const userThumbnailDOM = photographerModel.getUserThumbnailDOM();
-  photographerHeader.prepend(userInfoDOM);
-  photographerHeader.append(userThumbnailDOM);
-  //filter
-
-  //media
-  displayMedia(photos);
-}
-
 async function init() {
   const userID = new URLSearchParams(window.location.search).get("id");
+  //fetch user
   const photographer = await getPhotographerContent(userID);
-  photos = await getPhotos(userID);
-  displayData(photographer, photos);
+  //fetch media
+  window.media = await getMedia(userID);
+  window.likesSum = getSumOfLikes(media);
+  window.photographerModel = photographerFactory(photographer);
+  displayUserBanner(photographerModel);
+  displayMedia(media);
+  displayUserFooter();
 }
 
 function toggleFilter(elem) {
@@ -67,17 +59,33 @@ function sortMedia(filter, media) {
   }
 }
 
-function displayMedia(photos) {
+async function displayUserBanner(photographerModel) {
+  const photographerHeader = document.querySelector(".photograph-header"); 
+  const userInfoDOM = photographerModel.getUserInfoDOM();
+  const userThumbnailDOM = photographerModel.getUserThumbnailDOM();
+  photographerHeader.prepend(userInfoDOM);
+  photographerHeader.append(userThumbnailDOM);
+}
+
+async function displayMedia(media) {
   const photographerContent = document.querySelector(".photograph-content");
-  removeAllChildNodes(photographerContent);
-  photos = sortMedia(filterOption, photos);
+  //sort
+  media = sortMedia(filterOption, media);
+  //carousel
   document.querySelector(".carousel")?.remove();
-  window.carouselDOM = new Carousel(photos);
-  photos.forEach((photo, index) => {
+  window.carouselDOM = new Carousel(media);
+  //media list
+  removeAllChildNodes(photographerContent);
+  media.forEach((photo, index) => {
     const photoCardModel = mediaFactory(photo);
     const photoCardDOM = photoCardModel.getPhotoCardDOM(index);
     photographerContent.appendChild(photoCardDOM);
   });
+}
+async function displayUserFooter() {
+  const main = document.querySelector("#main");
+  const userFooterDOM = photographerModel.getUserNumeralsDOM(likesSum);
+  main.append(userFooterDOM);
 }
 
 init();

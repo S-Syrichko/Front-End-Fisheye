@@ -1,6 +1,11 @@
 *{
     margin: 0;
     text-decoration: none;
+    --color-primary : #901C1C;
+    --color-secondary : #D3573C;
+    --color-tertiary : #525252;
+    --background-color-1 : #DB8876;
+    --background-color-2 : #FAFAFA;
 }
 
 body {
@@ -17,7 +22,7 @@ header {
 }
 
 h1 {
-    color: #901C1C;
+    color: var(--color-primary);
     margin-right: 100px;
 }
 
@@ -49,20 +54,19 @@ h1 {
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
 }
 .photographer__name {
-    color: #D3573C;
+    color: var(--color-secondary);
     font-size: 36px;
     font-weight: 400;
     
 }
 .photographer__location {
-    color: #901c1c;
+    color: var(--color-primary);
     font-size: 13px;
 }
 .photographer__tagline {
-    color: black;
     font-size: 10px;
 }
 .photographer__price {
-    color: #757575;
+    color: var(--color-tertiary);
     font-size: 9px;
 }

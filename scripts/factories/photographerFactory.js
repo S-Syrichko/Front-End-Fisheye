@@ -4,8 +4,10 @@ function photographerFactory(data) {
   const picture = `assets/media/photographers/${portrait}`;
 
   function getUserCardDOM() {
-    const article = createElementWithClass("a", "photographer");
-    article.setAttribute("href", "photographer.html?id=" + id + "");
+    const container = createElementWithClass("div", "photographer");
+    //navlink
+    const anchor = document.createElement("a");
+    anchor.setAttribute("href", "photographer.html?id=" + id + "");
     //img
     const img = createElementWithClass("img", "photographer__thumbnail");
     img.setAttribute("src", picture);
@@ -23,12 +25,13 @@ function photographerFactory(data) {
     const dailyPrice = createElementWithClass("p", "photographer__price");
     dailyPrice.textContent = `${price}€/jour`;
     //append
-    article.appendChild(img);
-    article.appendChild(artistName);
-    article.appendChild(location);
-    article.appendChild(tag);
-    article.appendChild(dailyPrice);
-    return article;
+    container.appendChild(anchor);
+    anchor.appendChild(img);
+    container.appendChild(artistName);
+    container.appendChild(location);
+    container.appendChild(tag);
+    container.appendChild(dailyPrice);
+    return container;
   }
   function getUserInfoDOM() {
     const container = createElementWithClass("div", "photographer");
@@ -57,6 +60,25 @@ function photographerFactory(data) {
     img.setAttribute("alt", name);
     return img;
   }
+  function getUserNumeralsDOM(likes) {
+    const container = createElementWithClass("div", "photograph-footer");
+    //likes container
+    const likesContainer = createElementWithClass("div", "photograph-footer__likes");
+    //likes
+    const likesSum = document.createElement("p");
+    likesSum.textContent = likes;
+    //heart
+    const heart = createElementWithClass("i", "fas fa-heart");
+    //price
+    const dailyPrice = createElementWithClass("p", "photograph-footer__price");
+    dailyPrice.textContent = `${price}€ / jour`;
+    //append
+    container.appendChild(likesContainer);
+    container.appendChild(dailyPrice);
+    likesContainer.appendChild(likesSum);
+    likesContainer.appendChild(heart);
+    return container;
+  }
 
   return {
     name,
@@ -69,5 +91,6 @@ function photographerFactory(data) {
     getUserCardDOM,
     getUserInfoDOM,
     getUserThumbnailDOM,
+    getUserNumeralsDOM,
   };
 }

@@ -8,3 +8,7 @@ function createElementWithClass(element, className) {
   newElement.setAttribute("class", className);
   return newElement;
 }
+function getSumOfLikes(medias) {
+  let sum = medias.reduce((a, b) => a + b.likes, 0);
+  return sum;
+}

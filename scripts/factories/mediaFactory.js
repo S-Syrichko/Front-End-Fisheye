@@ -1,6 +1,6 @@
 function mediaFactory(data) {
   const { id, photographerId, title, image, video, likes, date, price } = data;
-
+  this.liked = false;
   const mediaURL = image
     ? `assets/media/photos/${photographerId}/${image}`
     : `assets/media/photos/${photographerId}/${video}`;
@@ -35,16 +35,25 @@ function mediaFactory(data) {
       "card__description__likes"
     );
     //likes number
-    const likesNumber = document.createElement("p");
-    likesNumber.textContent = likes;
+    this.likesNumber = document.createElement("p");
+    this.likesNumber.textContent = this.likes;
     //heart
     const heart = createElementWithClass("i", "fas fa-heart");
+    heart.addEventListener("click", () => {
+      if (this.liked == false) {
+        this.likes++;
+        this.likesNumber.textContent = this.likes;
+        this.liked = true;
+        likesSum ++;
+        displayUserFooter();
+      }
+    });
     //append
     card.appendChild(media);
     card.appendChild(cardDesc);
     cardDesc.appendChild(h2);
     cardDesc.appendChild(likesContainer);
-    likesContainer.appendChild(likesNumber);
+    likesContainer.appendChild(this.likesNumber);
     likesContainer.appendChild(heart);
     return card;
   }
@@ -76,6 +85,7 @@ function mediaFactory(data) {
     photographerId,
     title,
     likes,
+    liked,
     date,
     price,
     mediaURL,
