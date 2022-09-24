@@ -1,4 +1,6 @@
-function photographerFactory(data) {
+import { createElementWithClass } from "../utils/functions.js";
+
+export function photographerFactory(data) {
   const { name, id, city, country, tagline, price, portrait } = data;
 
   const picture = `assets/media/photographers/${portrait}`;
@@ -63,7 +65,10 @@ function photographerFactory(data) {
   function getUserNumeralsDOM(likes) {
     const container = createElementWithClass("div", "photograph-footer");
     //likes container
-    const likesContainer = createElementWithClass("div", "photograph-footer__likes");
+    const likesContainer = createElementWithClass(
+      "div",
+      "photograph-footer__likes"
+    );
     //likes
     const likesSum = document.createElement("p");
     likesSum.textContent = likes;

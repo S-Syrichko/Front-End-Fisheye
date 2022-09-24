@@ -1,89 +1,73 @@
+import { getPhotographerByUserID, getMediaByUserID } from "../API/fetchData.js";
+import { photographerFactory } from "../factories/photographerFactory.js";
+import { mediaFactory } from "../factories/mediaFactory.js";
+import { carouselFactory } from "../factories/carouselFactory.js";
+import { getSumOfLikes, removeAllChildNodes } from "../utils/functions.js";
+import {
+  displayModal,
+  closeModal,
+  submitForm,
+} from "../components/contactForm.js";
+import "../utils/events.js";
+import "../components/sortingMenu.js";
 
-let filterOption =
-  document.getElementById("filter").options[
-    document.getElementById("filter").selectedIndex
-  ].value;
+//HTML used functions
+window.displayModal = displayModal;
+window.closeModal = closeModal;
+window.submitForm = submitForm;
 
-async function getPhotographerContent(userID) {
-  return fetch("/data/photographers.json")
-    .then((res) => res.json())
-    .then((res) => {
-      const photographer = res.photographers.filter(
-        (photographer) => photographer.id == userID
-      );
-      return photographer[0];
-    })
-    .catch((err) => console.log("Fetch error occurs", err));
+//DOM Elements
+const main = document.querySelector("#main");
+const photographerHeader = document.querySelector(".photograph-header");
+const photographerContent = document.querySelector(".photograph-content");
+const lightbox = document.querySelector(".lightbox");
+
+//Global vars
+export let photographerModel, carouselModel, mediaList, likesSum;
+
+export function incrementLikesSum() {
+  likesSum++;
 }
-
-async function getMedia(userID) {
-  return fetch("/data/photographers.json")
-    .then((res) => res.json())
-    .then((res) => {
-      const mediaList = res.media.filter(
-        (media) => media.photographerId == userID
-      );
-      return mediaList;
-    })
-    .catch((err) => console.log("Fetch error occurs", err));
+export function displaySortedMedia(newMediaList) {
+  mediaList = newMediaList;
+  displayMedia();
 }
 
 async function init() {
   const userID = new URLSearchParams(window.location.search).get("id");
   //fetch user
-  const photographer = await getPhotographerContent(userID);
-  //fetch media
-  window.media = await getMedia(userID);
-  window.likesSum = getSumOfLikes(media);
-  window.photographerModel = photographerFactory(photographer);
-  displayUserBanner(photographerModel);
-  displayMedia(media);
+  const photographer = await getPhotographerByUserID(userID);
+  //fetch media (sorted by likes number)
+  mediaList = await getMediaByUserID(userID);
+  likesSum = getSumOfLikes(mediaList);
+  photographerModel = photographerFactory(photographer);
+  displayUserBanner();
+  displayMedia();
   displayUserFooter();
 }
 
-function toggleFilter(elem) {
-  filterOption = elem.options[elem.selectedIndex].value;
-  displayMedia(photos);
-}
-
-function sortMedia(filter, media) {
-  switch (filter) {
-    case "likes":
-      return media.sort((a, b) => b.likes - a.likes);
-    case "date":
-      return media.sort((a, b) => new Date(b.date) - new Date(a.date));
-    case "title":
-      return media.sort((a, b) => a.title.localeCompare(b.title));
-    default:
-      console.log("Invalid filter type");
-  }
-}
-
-async function displayUserBanner(photographerModel) {
-  const photographerHeader = document.querySelector(".photograph-header"); 
+async function displayUserBanner() {
   const userInfoDOM = photographerModel.getUserInfoDOM();
   const userThumbnailDOM = photographerModel.getUserThumbnailDOM();
   photographerHeader.prepend(userInfoDOM);
   photographerHeader.append(userThumbnailDOM);
 }
 
-async function displayMedia(media) {
-  const photographerContent = document.querySelector(".photograph-content");
-  //sort
-  media = sortMedia(filterOption, media);
+async function displayMedia() {
   //carousel
-  document.querySelector(".carousel")?.remove();
-  window.carouselDOM = new Carousel(media);
+  removeAllChildNodes(lightbox);
+  carouselModel = carouselFactory(mediaList);
+  lightbox.appendChild(carouselModel.carousel);
   //media list
   removeAllChildNodes(photographerContent);
-  media.forEach((photo, index) => {
+  mediaList.forEach((photo, index) => {
     const photoCardModel = mediaFactory(photo);
     const photoCardDOM = photoCardModel.getPhotoCardDOM(index);
     photographerContent.appendChild(photoCardDOM);
   });
 }
-async function displayUserFooter() {
-  const main = document.querySelector("#main");
+export async function displayUserFooter() {
+  document.querySelector(".photograph-footer")?.remove();
   const userFooterDOM = photographerModel.getUserNumeralsDOM(likesSum);
   main.append(userFooterDOM);
 }

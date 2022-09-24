@@ -1,16 +1,18 @@
-function displayModal() {
+import {photographerModel} from "../pages/photographer.js"
+
+export function displayModal() {
     const modal = document.getElementById("contact_modal");
 	modal.style.display = "block";
     const header = modal.getElementsByTagName("h2");
     header[0].innerHTML = `Contactez-moi<br/>${photographerModel.name}`
 }
 
-function closeModal() {
+export function closeModal() {
     const modal = document.getElementById("contact_modal");
     modal.style.display = "none";
 }
 
-function submitForm(e) {
+export function submitForm(e) {
     e.preventDefault();
     let form = document.querySelector("form");
     const firstName = "Prénom: " + form.elements.firstname.value;

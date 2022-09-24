@@ -25,22 +25,79 @@
     </header>
     <main id="main">
       <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()">
+        <button class="button button--contact" onclick="displayModal()">
           Contactez-moi
         </button>
       </div>
-      <div class="filter">
-        <label for="filter">Trier par</label>
-        <select name="filter" id="filter" onchange="toggleFilter(this)">
-            <option value="likes">Popularité</option>
-            <option disabled="disabled">-------</option>
-            <option value="date">Date</option>
-          <option disabled="disabled">-------</option>
-          <option value="title">Titre</option>
-        </select>
+      <div class="media-sorting">
+        <label id="sorting-label">Trier par</label>
+        <div id="sorting-wrapper">
+          <button
+            class="button button--sorting"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+            aria-labelledby="sorting-label sorting-btn"
+            tabindex="0"
+          >
+            <span>Popularité</span>
+            <i
+              class="icon fas fa-chevron-down"
+              id="arrow-down-open"
+              aria-hidden="true"
+            ></i>
+          </button>
+          <ul
+            class="dropdown__menu"
+            id="dropdownmenu"
+            role="listbox"
+            aria-labelledby="sorting-label"
+            aria-activedescendant="option1"
+            tabindex="-1"
+          >
+            <li
+              id="option1"
+              class="sorting-option"
+              role="option"
+              aria-selected="true"
+              tabindex="-1"
+            >
+              <div>
+                <span>Popularité</span>
+                <i
+                  class="icon fas fa-chevron-up"
+                  id="arrow-up-close"
+                  aria-hidden="true"
+                ></i>
+              </div>
+            </li>
+            <li
+              id="option2"
+              class="sorting-option"
+              role="option"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              <div>
+                <span>Date</span>
+              </div>
+            </li>
+            <li
+              id="option3"
+              class="sorting-option"
+              role="option"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              <div>
+                <span>Titre</span>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="photograph-content"></div>
     </main>
+    <div class="lightbox"></div>
     <div id="contact_modal">
       <div class="modal">
         <header>
@@ -50,23 +107,20 @@
         <form>
           <div>
             <label for="firstname">Prénom</label>
-            <input name="firstname"/>
+            <input name="firstname" />
             <label for="lastname">Nom</label>
-            <input name="lastname"/>
+            <input name="lastname" />
             <label for="email">Email</label>
-            <input name="email"/>
+            <input name="email" />
             <label for="message">Message</label>
             <textarea name="message" rows="4"></textarea>
           </div>
-          <button class="contact_button contact_button--submit" onclick="submitForm(event)">Envoyer</button>
+          <button class="button button--submit" onclick="submitForm(event)">
+            Envoyer
+          </button>
         </form>
       </div>
     </div>
-    <script src="scripts/factories/photographerFactory.js"></script>
-    <script src="scripts/factories/mediaFactory.js"></script>
-    <script src="/scripts/factories/carouselFactory.js"></script>
-    <script src="/scripts/pages/photographer.js"></script>
-    <script src="/scripts/utils/contactForm.js"></script>
-    <script src="/scripts/utils/misc.js"></script>
+    <script type="module" src="/scripts/pages/photographer.js"></script>
   </body>
 </html>

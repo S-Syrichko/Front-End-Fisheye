@@ -1,6 +1,8 @@
-function mediaFactory(data) {
+import { createElementWithClass } from "../utils/functions.js";
+
+export function mediaFactory(data) {
   const { id, photographerId, title, image, video, likes, date, price } = data;
-  this.liked = false;
+  let liked = false;
   const mediaURL = image
     ? `assets/media/photos/${photographerId}/${image}`
     : `assets/media/photos/${photographerId}/${video}`;
@@ -21,8 +23,9 @@ function mediaFactory(data) {
     media.setAttribute("src", mediaURL);
     media.setAttribute("alt", title);
     media.addEventListener("click", () => {
-      carouselDOM.setCurrentSlide(index);
-      carouselDOM.showCarousel();
+      document.dispatchEvent(
+        new CustomEvent("openCarousel", { detail: { index: index } })
+      );
     });
     //card description
     const cardDesc = createElementWithClass("div", "card__description");
@@ -44,8 +47,7 @@ function mediaFactory(data) {
         this.likes++;
         this.likesNumber.textContent = this.likes;
         this.liked = true;
-        likesSum ++;
-        displayUserFooter();
+        document.dispatchEvent(new Event("liked"));
       }
     });
     //append
