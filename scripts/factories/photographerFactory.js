@@ -6,14 +6,13 @@ export function photographerFactory(data) {
   const picture = `assets/media/photographers/${portrait}`;
 
   function getUserCardDOM() {
-    const container = createElementWithClass("div", "photographer");
+    const container = createElementWithClass("article", "photographer");
     //navlink
     const anchor = document.createElement("a");
     anchor.setAttribute("href", "photographer.html?id=" + id + "");
     //img
     const img = createElementWithClass("img", "photographer__thumbnail");
     img.setAttribute("src", picture);
-    img.setAttribute("alt", name);
     //name
     const artistName = createElementWithClass("h2", "photographer__name");
     artistName.textContent = name;
@@ -29,7 +28,7 @@ export function photographerFactory(data) {
     //append
     container.appendChild(anchor);
     anchor.appendChild(img);
-    container.appendChild(artistName);
+    anchor.appendChild(artistName);
     container.appendChild(location);
     container.appendChild(tag);
     container.appendChild(dailyPrice);

@@ -1,7 +1,9 @@
 @import url("style.css");
-#contact_modal {
-  display: none;
+
+.background {
+  opacity: 0.3;
 }
+
 /* ---------------- Button -------------------*/
 .button {
   box-sizing: border-box;
@@ -141,7 +143,7 @@
 }
 
 /* -----------------------Media list--------------------- */
-.photograph-content {
+.media-display {
   margin: 0 100px 100px 100px;
   display: flex;
   justify-content: space-between;
@@ -184,6 +186,9 @@
   cursor: pointer;
 }
 /*---------------------- Contact Modal -------------------*/
+.contact_modal {
+  display: none;
+}
 .button--contact {
   position: absolute;
   left: 50%;
@@ -286,6 +291,7 @@ form textarea {
   height: 40px;
   font-size: 40px;
   text-align: center;
+  z-index: 2;
   color: var(--color-primary);
 }
 .carousel i:hover {
@@ -318,7 +324,7 @@ form textarea {
 .item__img,
 .item__video {
   object-fit: cover;
-  height: 95%;
+  height: 90%;
   width: auto;
   max-width: 99%;
   box-shadow: 0px 0px 10px 2px #9e9e9e;

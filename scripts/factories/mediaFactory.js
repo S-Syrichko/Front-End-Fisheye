@@ -22,10 +22,12 @@ export function mediaFactory(data) {
     }
     media.setAttribute("src", mediaURL);
     media.setAttribute("alt", title);
-    media.addEventListener("click", () => {
-      document.dispatchEvent(
-        new CustomEvent("openCarousel", { detail: { index: index } })
-      );
+    media.setAttribute("tabindex", "0");
+    media.addEventListener("click", (e) => {
+      handleMediaEvent(e, index);
+    });
+    media.addEventListener("keyup", (e) => {
+      handleMediaEvent(e, index);
     });
     //card description
     const cardDesc = createElementWithClass("div", "card__description");
@@ -39,16 +41,23 @@ export function mediaFactory(data) {
     );
     //likes number
     this.likesNumber = document.createElement("p");
+    this.likesNumber.setAttribute("tabindex", "0");
     this.likesNumber.textContent = this.likes;
+    this.likesNumber.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter") {
+        this.liked ? this.likes-- : this.likes++;
+        this.likesNumber.textContent = this.likes;
+        new CustomEvent("liked", { detail: { liked: this.liked } });
+        this.liked = !this.liked;
+      }
+    });
     //heart
     const heart = createElementWithClass("i", "fas fa-heart");
     heart.addEventListener("click", () => {
-      if (this.liked == false) {
-        this.likes++;
-        this.likesNumber.textContent = this.likes;
-        this.liked = true;
-        document.dispatchEvent(new Event("liked"));
-      }
+      this.liked ? this.likes-- : this.likes++;
+      this.likesNumber.textContent = this.likes;
+      new CustomEvent("liked", { detail: { liked: this.liked } });
+      this.liked = !this.liked;
     });
     //append
     card.appendChild(media);
@@ -81,6 +90,14 @@ export function mediaFactory(data) {
     item.appendChild(media);
     item.appendChild(h2);
     return item;
+  }
+  //Private functions
+  function handleMediaEvent(e, index) {
+    if (e.type == "click" || (e.type == "keyup" && e.key == "Enter")) {
+      document.dispatchEvent(
+        new CustomEvent("openCarousel", { detail: { index: index } })
+      );
+    }
   }
   return {
     id,

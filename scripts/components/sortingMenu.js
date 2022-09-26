@@ -1,9 +1,15 @@
 import { displaySortedMedia, mediaList } from "../pages/photographer.js";
 import { sortMedia } from "../utils/functions.js";
 
+const sortTypes = {
+  options : ["likes", "date", "title"],
+  texts : ["Popularité", "Date", "Titre"]
+};
+
 //DOM Elements
 const dropDownMenu = document.querySelector(".dropdown__menu");
 const sortingButton = document.querySelector(".button--sorting");
+const actualSortingOption = document.querySelector(".button--sorting > span");
 const sortingOptions = Array.from(
   document.getElementsByClassName("sorting-option")
 );
@@ -23,7 +29,8 @@ sortingButton.addEventListener("click", () => {
 function toggleSortType(e) {
   if (e.type === "click" || (e.type === "keydown" && e.key === "Enter")) {
     const optionIndex = sortingOptions.findIndex((x) => x === e.currentTarget);
-    displaySortedMedia(sortMedia(mediaList, optionIndex));
+    displaySortedMedia(sortMedia(mediaList, sortTypes.options[optionIndex]));
+    actualSortingOption.textContent = sortTypes.texts[optionIndex];
     dropDownMenu.classList.remove("display");
   }
 }

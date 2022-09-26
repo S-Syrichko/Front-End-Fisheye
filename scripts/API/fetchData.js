@@ -26,7 +26,7 @@ export async function getMediaByUserID(userID) {
       const mediaList = res.media.filter(
         (media) => media.photographerId == userID
       );
-      return sortMedia(mediaList, 0);
+      return sortMedia(mediaList, "likes");
     })
     .catch((err) => console.log("Fetch error occurs", err));
 }

@@ -12,15 +12,28 @@ export function getSumOfLikes(medias) {
   let sum = medias.reduce((a, b) => a + b.likes, 0);
   return sum;
 }
-export function sortMedia(mediaList, optionIndex) {
-  switch (optionIndex) {
-    case 0:
+export function sortMedia(mediaList, sortOption) {
+  switch (sortOption) {
+    case "likes":
       return mediaList.sort((a, b) => b.likes - a.likes);
-    case 1:
+    case "date":
       return mediaList.sort((a, b) => new Date(b.date) - new Date(a.date));
-    case 2:
+    case "title":
       return mediaList.sort((a, b) => a.title.localeCompare(b.title));
     default:
       throw "Sort option index error";
   }
+}
+
+export function hidePageBody() {
+  document.querySelector("body > header").setAttribute("aria-hidden", "true");
+  document.getElementById("main").setAttribute("aria-hidden", "true");
+  document.querySelector("body > header").classList.add("background");
+  document.getElementById("main").classList.add("background");
+}
+export function showPageBody() {
+  document.querySelector("body > header").setAttribute("aria-hidden", "false");
+  document.getElementById("main").setAttribute("aria-hidden", "false");
+  document.querySelector("body > header").classList.remove("background");
+  document.getElementById("main").classList.remove("background");
 }

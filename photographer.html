@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <link href="css/photographer.css" rel="stylesheet" type="text/css" />
     <meta charset="utf-8" />
@@ -18,109 +18,126 @@
     <title>Fisheye - photographe</title>
   </head>
   <body>
-    <header>
+    <header aria-hidden="false">
       <a href="index.html">
-        <img src="assets/images/logo.png" class="logo" />
+        <img
+          src="assets/images/logo.png"
+          class="logo"
+          alt="Fisheye Home Page"
+        />
       </a>
     </header>
-    <main id="main">
-      <div class="photograph-header">
-        <button class="button button--contact" onclick="displayModal()">
+    <main id="main" aria-hidden="false">
+      <section class="photograph-header">
+        <button class="button button--contact">
           Contactez-moi
         </button>
-      </div>
-      <div class="media-sorting">
-        <label id="sorting-label">Trier par</label>
-        <div id="sorting-wrapper">
-          <button
-            class="button button--sorting"
-            aria-haspopup="listbox"
-            aria-expanded="false"
-            aria-labelledby="sorting-label sorting-btn"
-            tabindex="0"
-          >
-            <span>Popularité</span>
-            <i
-              class="icon fas fa-chevron-down"
-              id="arrow-down-open"
-              aria-hidden="true"
-            ></i>
-          </button>
-          <ul
-            class="dropdown__menu"
-            id="dropdownmenu"
-            role="listbox"
-            aria-labelledby="sorting-label"
-            aria-activedescendant="option1"
-            tabindex="-1"
-          >
-            <li
-              id="option1"
-              class="sorting-option"
-              role="option"
-              aria-selected="true"
+      </section>
+      <section class="media-section">
+        <div class="media-sorting">
+          <label id="sorting-label">Trier par</label>
+          <div id="sorting-wrapper">
+            <button
+              class="button button--sorting"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-labelledby="sorting-label"
+              tabindex="0"
+            >
+              <span>Popularité</span>
+              <i
+                class="icon fas fa-chevron-down"
+                id="arrow-down-open"
+                aria-hidden="true"
+              ></i>
+            </button>
+            <ul
+              class="dropdown__menu"
+              id="dropdownmenu"
+              role="listbox"
+              aria-labelledby="sorting-label"
+              aria-activedescendant="option1"
               tabindex="-1"
             >
-              <div>
-                <span>Popularité</span>
-                <i
-                  class="icon fas fa-chevron-up"
-                  id="arrow-up-close"
-                  aria-hidden="true"
-                ></i>
-              </div>
-            </li>
-            <li
-              id="option2"
-              class="sorting-option"
-              role="option"
-              aria-selected="false"
-              tabindex="-1"
-            >
-              <div>
-                <span>Date</span>
-              </div>
-            </li>
-            <li
-              id="option3"
-              class="sorting-option"
-              role="option"
-              aria-selected="false"
-              tabindex="-1"
-            >
-              <div>
-                <span>Titre</span>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="photograph-content"></div>
-    </main>
-    <div class="lightbox"></div>
-    <div id="contact_modal">
-      <div class="modal">
-        <header>
-          <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
-        </header>
-        <form>
-          <div>
-            <label for="firstname">Prénom</label>
-            <input name="firstname" />
-            <label for="lastname">Nom</label>
-            <input name="lastname" />
-            <label for="email">Email</label>
-            <input name="email" />
-            <label for="message">Message</label>
-            <textarea name="message" rows="4"></textarea>
+              <li
+                id="option1"
+                class="sorting-option"
+                role="option"
+                aria-selected="true"
+                tabindex="-1"
+              >
+                <div>
+                  <span>Popularité</span>
+                  <i
+                    class="icon fas fa-chevron-up"
+                    id="arrow-up-close"
+                    aria-hidden="true"
+                  ></i>
+                </div>
+              </li>
+              <li
+                id="option2"
+                class="sorting-option"
+                role="option"
+                aria-selected="false"
+                tabindex="-1"
+              >
+                <div>
+                  <span>Date</span>
+                </div>
+              </li>
+              <li
+                id="option3"
+                class="sorting-option"
+                role="option"
+                aria-selected="false"
+                tabindex="-1"
+              >
+                <div>
+                  <span>Titre</span>
+                </div>
+              </li>
+            </ul>
           </div>
-          <button class="button button--submit" onclick="submitForm(event)">
+        </div>
+        <div class="media-display"><!--Media cards added by javascript--></div>
+      </section>
+    </main>
+    <section class="lightbox" aria-hidden="true"></section>
+    <section
+      role="dialog"
+      class="contact_modal"
+      aria-label="contact me form"
+      aria-hidden="true"
+      aria-describedby="modal-title"
+    >
+      <div class="modal" role="document">
+        <header>
+          <h2 id="modal-title">Contactez-moi</h2>
+          <img
+            class="close-modal"
+            src="assets/icons/close.svg"
+            alt="Fermer formulaire"
+            tabindex="0"
+          />
+        </header>
+        <form id="contact-form" method="POST">
+          <div>
+            <label for="firstname" id="firstname-label">Prénom</label>
+            <input name="firstname" id="firstname" aria-labelledby="firstname-label" aria-required="true" type="text" placeholder="Jean" required/>
+            <label for="lastname" id="lastname-label">Nom</label>
+            <input name="lastname" id="lastname" aria-labelledby="lastname-label" aria-required="true" type="text" placeholder="Dupont" required/>
+            <label for="email" id="email-label">Email</label>
+            <input name="email" id="email" aria-labelledby="email-label" aria-required="true" type="email" placeholder="jean-dupont@gmail.com" required/>
+            <label for="message" id="message-label">Message</label>
+            <textarea name="message" id="message" rows="4" aria-labelledby="message-label" aria-required="true" placeholder="Votre message" required></textarea>
+          </div>
+          <button class="button button--submit" type="submit">
             Envoyer
           </button>
         </form>
       </div>
-    </div>
+    </section>
     <script type="module" src="/scripts/pages/photographer.js"></script>
   </body>
 </html>
