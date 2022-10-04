@@ -44,7 +44,7 @@ export function mediaFactory(data) {
     this.likesNumber.setAttribute("tabindex", "0");
     this.likesNumber.textContent = this.likes;
     this.likesNumber.addEventListener("keydown", (e) => {
-      if (e.key !== "Enter") {
+      if (e.key == "Enter") {
         this.liked ? this.likes-- : this.likes++;
         this.likesNumber.textContent = this.likes;
         new CustomEvent("liked", { detail: { liked: this.liked } });
