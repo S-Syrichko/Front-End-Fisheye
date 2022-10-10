@@ -47,8 +47,10 @@ export function mediaFactory(data) {
       if (e.key == "Enter") {
         this.liked ? this.likes-- : this.likes++;
         this.likesNumber.textContent = this.likes;
-        new CustomEvent("liked", { detail: { liked: this.liked } });
         this.liked = !this.liked;
+        document.dispatchEvent(
+          new CustomEvent("liked", { detail: { liked: this.liked } })
+        );
       }
     });
     //heart
@@ -56,8 +58,10 @@ export function mediaFactory(data) {
     heart.addEventListener("click", () => {
       this.liked ? this.likes-- : this.likes++;
       this.likesNumber.textContent = this.likes;
-      new CustomEvent("liked", { detail: { liked: this.liked } });
       this.liked = !this.liked;
+      document.dispatchEvent(
+        new CustomEvent("liked", { detail: { liked: this.liked } })
+      );
     });
     //append
     card.appendChild(media);

@@ -11,6 +11,10 @@ document.addEventListener("openCarousel", (e) => {
   carouselModel.showCarousel();
 });
 document.addEventListener("liked", (e) => {
-  e.detail.liked ? incrementLikesSum() : decrementLikesSum();
+  if (e.detail.liked) {
+    incrementLikesSum();
+  } else {
+    decrementLikesSum();
+  }
   displayUserFooter();
 });
