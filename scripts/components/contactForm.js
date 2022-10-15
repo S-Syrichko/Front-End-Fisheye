@@ -45,8 +45,6 @@ export function submitForm(e) {
   console.log(message);
 }
 
-
-
 function handleKeyboardAndTrapFocus(e) {
     const focusableElements =
       'button, input, textarea, [tabindex]:not([tabindex="-1"])';

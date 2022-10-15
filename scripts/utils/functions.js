@@ -37,3 +37,4 @@ export function showPageBody() {
   document.querySelector("body > header").classList.remove("background");
   document.getElementById("main").classList.remove("background");
 }
+
