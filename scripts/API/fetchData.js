@@ -4,7 +4,7 @@ export async function getAllPhotographers() {
   return fetch("/data/photographers.json")
     .then((res) => res.json())
     .then((res) => res.photographers)
-    .catch((err) => console.log("Fetch error occurs", err));
+    .catch((err) => console.log("Fetch error occurs", err, res.json()));
 }
 
 export async function getPhotographerByUserID(userID) {
